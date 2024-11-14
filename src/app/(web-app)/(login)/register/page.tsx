@@ -13,9 +13,9 @@ import {
   Box,
 } from "@mantine/core"
 import "@mantine/core/styles.css"
-import packageInfo from "../../../../package.json"
+import packageInfo from "../../../../../package.json"
 
-export default function Home() {
+export default function Register() {
   return (
     <main style={{ minHeight: "100vh" }}>
       <Flex
@@ -24,7 +24,7 @@ export default function Home() {
         justify='center'
         align='center'
       >
-        <Title>Login</Title>
+        <Title>Register</Title>
         <Container>
           <Paper
             withBorder
@@ -36,10 +36,16 @@ export default function Home() {
             component='form'
           >
             <TextInput
-              label='Username'
-              placeholder='กรอก user ตัวเลข 8 หลัก'
+              label='First Name'
+              placeholder='กรอก first name'
               required
             />
+            <TextInput
+              label='Last Name'
+              placeholder='กรอก last name'
+              required
+            />
+            <TextInput label='Username' placeholder='กรอก username' required />
             <PasswordInput
               label='Password'
               placeholder='กรอก password ตัวเลข 8 หลัก'
@@ -50,7 +56,7 @@ export default function Home() {
               <Checkbox label='Remember me' />
             </Group>
             <Button type='submit' color='blue' fullWidth mt='xl'>
-              Log in
+              Sign in
             </Button>
           </Paper>
         </Container>
