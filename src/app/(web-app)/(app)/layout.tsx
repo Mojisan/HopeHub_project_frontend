@@ -24,7 +24,7 @@ export default function Home({
       }}
       padding='md'
     >
-      <AppShell.Header bg='blue'>
+      <AppShell.Header bg='#ffc300'>
         <HeaderMain />
       </AppShell.Header>
 
@@ -34,7 +34,9 @@ export default function Home({
 
       <AppShell.Main>{children}</AppShell.Main>
 
-      <AppShell.Aside>Aside</AppShell.Aside>
+      <AppShell.Aside display={{ base: "none", md: "block" }}>
+        Aside
+      </AppShell.Aside>
     </AppShell>
   )
 }

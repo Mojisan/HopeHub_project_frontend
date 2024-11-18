@@ -14,8 +14,33 @@ import {
 } from "@mantine/core"
 import "@mantine/core/styles.css"
 import packageInfo from "../../../../../package.json"
+import Link from "next/link"
+import { PATH } from "@/path"
+import { useUserStore } from "@/stores/useUserStore"
+import { useForm, zodResolver } from "@mantine/form"
+import { useRouter } from "next/navigation"
+
+interface IRegisterForm {
+  firstName: string
+  lastName: string
+  username: string
+  password: string
+}
 
 export default function Register() {
+  const { register } = useUserStore()
+  const router = useRouter()
+
+  const form = useForm<IRegisterForm>({
+    // validate: zodResolver(),
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      password: "",
+    },
+  })
+
   return (
     <main style={{ minHeight: "100vh" }}>
       <Flex
@@ -34,21 +59,50 @@ export default function Register() {
             radius='md'
             style={{ width: "60vh" }}
             component='form'
+            onSubmit={form.onSubmit((value) => {
+              const values = {
+                firstName: value.firstName,
+                lastName: value.lastName,
+                username: value.username,
+                password: value.password,
+              }
+
+              try {
+                register(
+                  values.firstName,
+                  values.lastName,
+                  values.username,
+                  values.password
+                )
+
+                router.push("/")
+              } catch {
+                console.log("Error")
+              }
+            })}
           >
             <TextInput
               label='First Name'
               placeholder='กรอก first name'
+              {...form.getInputProps("firstName")}
               required
             />
             <TextInput
               label='Last Name'
               placeholder='กรอก last name'
+              {...form.getInputProps("lastName")}
               required
             />
-            <TextInput label='Username' placeholder='กรอก username' required />
+            <TextInput
+              label='Username'
+              placeholder='กรอก username'
+              {...form.getInputProps("username")}
+              required
+            />
             <PasswordInput
               label='Password'
               placeholder='กรอก password ตัวเลข 8 หลัก'
+              {...form.getInputProps("password")}
               required
               mt='md'
             />
@@ -60,6 +114,9 @@ export default function Register() {
             </Button>
           </Paper>
         </Container>
+        <Link href={PATH.LOGIN} color='blue'>
+          login
+        </Link>
         <Box fz='sm'>v. {packageInfo.version}</Box>
       </Flex>
     </main>

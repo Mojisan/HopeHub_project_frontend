@@ -14,6 +14,8 @@ import {
 } from "@mantine/core"
 import "@mantine/core/styles.css"
 import packageInfo from "../../../../package.json"
+import Link from "next/link"
+import { PATH } from "@/path"
 
 export default function Home() {
   return (
@@ -54,6 +56,10 @@ export default function Home() {
             </Button>
           </Paper>
         </Container>
+
+        <Link href={PATH.REGISTER} color='blue'>
+          register
+        </Link>
         <Box fz='sm'>v. {packageInfo.version}</Box>
       </Flex>
     </main>

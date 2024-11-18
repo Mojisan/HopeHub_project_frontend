@@ -76,7 +76,7 @@ const BaseSizeMenu = () => {
         offset={2}
       >
         <Menu.Target>
-          <ActionIcon variant='filled' aria-label='Menu' size='lg'>
+          <ActionIcon variant='filled' aria-label='Menu' size='lg' bg='none'>
             <IconCategory size='lg' />
           </ActionIcon>
         </Menu.Target>
@@ -134,6 +134,7 @@ const PcSizeMenu = () => {
           size='lg'
           component='a'
           href={item.path}
+          bg='none'
         >
           {item.icon}
         </ActionIcon>
@@ -171,12 +172,7 @@ const HeaderMain = () => {
   return (
     <Flex h='100%' align='center' justify='space-between' mx='2%'>
       <Flex gap='lg' align='center'>
-        <Image
-          src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/512px-YouTube_Logo_2017.svg.png'
-          alt='logo'
-          h={40}
-          w='auto'
-        />
+        <Image src='/images/logo.png' alt='logo' h={80} w='auto' />
       </Flex>
       <Flex>
         <Autocomplete
