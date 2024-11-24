@@ -11,14 +11,18 @@ interface IRegisterResponse {
   accessToken: string
 }
 
-const API_PATH = ""
+const API_PATH = "http://localhost:5000/api/register"
 
 export const register = async (
   payload: IRegisterPayload
 ): Promise<IRegisterResponse> => {
-  const response = await AxiosPublicInstance.post<IRegisterResponse>(
-    API_PATH,
-    payload
-  )
-  return response.data
+  try {
+    const response = await AxiosPublicInstance.post<IRegisterResponse>(
+      API_PATH,
+      payload
+    )
+    return response.data
+  } catch {
+    throw Error
+  }
 }

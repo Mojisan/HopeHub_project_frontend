@@ -12,21 +12,25 @@ interface IUserResponse {
   name: string
 }
 
+const API_PATH = "http://localhost:5000/api/login"
+
 export const login = async (
   username: string,
   password: string
 ): Promise<ILoginResponse> => {
-  const response = await AxiosPublicInstance.post<ILoginResponse>(
-    "/auth/login",
-    {
+  try {
+    const response = await AxiosPublicInstance.post<ILoginResponse>(API_PATH, {
       username,
       password,
-    }
-  )
-  return response.data
+    })
+    return response.data
+  } catch {
+    throw Error
+  }
 }
 
 export const getUserProfile = async (): Promise<IUserResponse> => {
-  const response = await AxiosPrivateInstance.get<IUserResponse>("/users/me")
+  const response = await AxiosPrivateInstance.get<IUserResponse>("/home")
+  alert("success")
   return response.data
 }

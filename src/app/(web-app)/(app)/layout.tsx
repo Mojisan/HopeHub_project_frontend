@@ -18,10 +18,10 @@ export default function Home({
         width: 300,
         breakpoint: "sm",
       }}
-      aside={{
+      /* aside={{
         width: 600,
         breakpoint: "sm",
-      }}
+      }} */
       padding='md'
     >
       <AppShell.Header bg='#ffc300'>
@@ -34,9 +34,9 @@ export default function Home({
 
       <AppShell.Main>{children}</AppShell.Main>
 
-      <AppShell.Aside display={{ base: "none", md: "block" }}>
+      {/* <AppShell.Aside display={{ base: "none", md: "block" }}>
         Aside
-      </AppShell.Aside>
+      </AppShell.Aside> */}
     </AppShell>
   )
 }

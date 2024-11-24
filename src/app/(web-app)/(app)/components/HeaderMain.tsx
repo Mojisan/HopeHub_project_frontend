@@ -45,7 +45,7 @@ const LOGIN_OPTIONS = [
     id: 1,
     title: "Profile",
     icon: <IconUser size='lg' />,
-    path: PATH.HOME,
+    path: PATH.PROFILE,
   },
   {
     id: 2,

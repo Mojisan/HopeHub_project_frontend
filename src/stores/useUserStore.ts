@@ -33,7 +33,7 @@ const initialUserState: UserState = {
   currentUser: null,
 }
 
-export const useUserStore = create<UserState & UserActions>((set, get) => ({
+export const useUserStore = create<UserState & UserActions>((set) => ({
   ...initialUserState,
   login: async (username: string, password: string, remember: boolean) => {
     const { setLoading } = useApplicationStore.getState()
@@ -51,7 +51,6 @@ export const useUserStore = create<UserState & UserActions>((set, get) => ({
         currentUser: user,
       })
     } catch (error) {
-      console.error(error)
       throw error
     } finally {
       setLoading(false)

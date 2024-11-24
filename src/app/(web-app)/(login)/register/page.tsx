@@ -19,20 +19,15 @@ import { PATH } from "@/path"
 import { useUserStore } from "@/stores/useUserStore"
 import { useForm, zodResolver } from "@mantine/form"
 import { useRouter } from "next/navigation"
-
-interface IRegisterForm {
-  firstName: string
-  lastName: string
-  username: string
-  password: string
-}
+import { RegisterSchemas } from "./components/schema"
+import { IRegisterForm } from "./components/interface"
 
 export default function Register() {
   const { register } = useUserStore()
   const router = useRouter()
 
   const form = useForm<IRegisterForm>({
-    // validate: zodResolver(),
+    validate: zodResolver(RegisterSchemas),
     initialValues: {
       firstName: "",
       lastName: "",
@@ -75,7 +70,7 @@ export default function Register() {
                   values.password
                 )
 
-                router.push("/")
+                router.push(PATH.LOGIN)
               } catch {
                 console.log("Error")
               }
@@ -86,6 +81,7 @@ export default function Register() {
               placeholder='กรอก first name'
               {...form.getInputProps("firstName")}
               required
+              //error={Boolean(form.errors.firstName) ? form.errors?.message : ""}
             />
             <TextInput
               label='Last Name'
