@@ -1,4 +1,5 @@
 import { PATH } from "@/path"
+import { useUserStore } from "@/stores/useUserStore"
 import {
   Flex,
   Menu,
@@ -53,15 +54,11 @@ const LOGIN_OPTIONS = [
     icon: <IconSettings size='lg' />,
     path: PATH.HOME,
   },
-  {
-    id: 3,
-    title: "Log out",
-    icon: <IconLogout size='lg' />,
-    path: PATH.LOGIN,
-  },
 ]
 
 const BaseSizeMenu = () => {
+  const { logout } = useUserStore()
+
   return (
     <Flex gap='lg' align='center'>
       <Menu
@@ -117,6 +114,16 @@ const BaseSizeMenu = () => {
               {item.title}
             </Menu.Item>
           ))}
+          <Menu.Item
+            leftSection={React.cloneElement(<IconLogout size='lg' />, {
+              size: 24,
+            })}
+            component='a'
+            onClick={logout}
+            href={PATH.LOGIN}
+          >
+            Log out
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
     </Flex>
@@ -124,6 +131,8 @@ const BaseSizeMenu = () => {
 }
 
 const PcSizeMenu = () => {
+  const { logout } = useUserStore()
+
   return (
     <Flex gap='lg' align='center'>
       {MENU_OPTIONS.map((item) => (
@@ -162,6 +171,16 @@ const PcSizeMenu = () => {
               {item.title}
             </Menu.Item>
           ))}
+          <Menu.Item
+            leftSection={React.cloneElement(<IconLogout size='lg' />, {
+              size: 24,
+            })}
+            component='a'
+            onClick={logout}
+            href={PATH.LOGIN}
+          >
+            Log out
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
     </Flex>

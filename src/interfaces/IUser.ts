@@ -1,11 +1,15 @@
 export enum UserRole {
-  SUPERVISOR = 'supervisor',
-  ADMIN = 'admin',
+  SUPERVISOR = "supervisor",
+  ADMIN = "admin",
 }
 
 export interface IUser {
-  id: number
+  userId: string
+  firstName: string
+  lastName: string
   username: string
-  name: string
-  role: UserRole
+  bio: string
+  avatar: string
+  follower: number
+  following: number
 }

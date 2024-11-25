@@ -1,15 +1,35 @@
 import { AxiosPrivateInstance, AxiosPublicInstance } from "@/axios"
-import { UserRole } from "@/interfaces/IUser"
 
 interface ILoginResponse {
-  accessToken: string
+  message: string
+  user: {
+    id: string
+    username: string
+    firstName: string
+    lastName: string
+  }
+}
+
+interface IUpdateProfileParams {
+  userId?: string
+  firstName?: string
+  lastName?: string
+  bio?: string
+}
+
+interface IUpdateProfileResponse {
+  message: string
 }
 
 interface IUserResponse {
-  id: number
+  userId: string
+  firstName: string
+  lastName: string
   username: string
-  role: UserRole
-  name: string
+  bio: string
+  avatar: string
+  follower: number
+  following: number
 }
 
 const API_PATH = "http://localhost:5000/api/login"
@@ -29,8 +49,28 @@ export const login = async (
   }
 }
 
-export const getUserProfile = async (): Promise<IUserResponse> => {
-  const response = await AxiosPrivateInstance.get<IUserResponse>("/home")
+export const getUserProfile = async (
+  userId: string
+): Promise<IUserResponse> => {
+  const response = await AxiosPrivateInstance.get<IUserResponse>(
+    "http://localhost:5000/api/get-profile",
+    {
+      params: { userId },
+    }
+  )
+  alert("success")
+  return response.data
+}
+
+export const updateUserProfile = async (
+  params: IUpdateProfileParams
+): Promise<IUpdateProfileResponse> => {
+  const response = await AxiosPrivateInstance.put<IUpdateProfileResponse>(
+    "http://localhost:5000/api/update-profile",
+    {
+      params,
+    }
+  )
   alert("success")
   return response.data
 }

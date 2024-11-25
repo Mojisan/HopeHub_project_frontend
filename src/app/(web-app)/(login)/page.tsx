@@ -96,6 +96,7 @@ export default function Home() {
         <Link href={PATH.REGISTER} color='blue'>
           register
         </Link>
+
         <Box fz='sm'>v. {packageInfo.version}</Box>
       </Flex>
     </main>

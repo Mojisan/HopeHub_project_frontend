@@ -65,7 +65,7 @@ const Post: React.FC<IPost> = ({ postId }) => {
       radius='md'
       withBorder
       style={{
-        width: "50%",
+        width: "100%",
       }}
     >
       <Flex gap='lg' direction='column'>
@@ -143,7 +143,7 @@ const Post: React.FC<IPost> = ({ postId }) => {
       </Flex>
 
       {/* Modal */}
-      <PostModal opened={opened} close={close} postId={MockPost.postId} />
+      <PostModal opened={opened} onClose={close} postId={MockPost.postId} />
     </Paper>
   )
 }

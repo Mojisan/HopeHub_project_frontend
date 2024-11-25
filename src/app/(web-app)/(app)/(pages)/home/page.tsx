@@ -1,16 +1,17 @@
-import { Box, Flex, Title } from "@mantine/core"
+"use client"
+
 import React from "react"
+import { Flex } from "@mantine/core"
+import Post from "../components/post/post"
+import CreatePost from "../components/createPost/createPost"
 
 const HomePage = () => {
   return (
-    <>
-      <Box>
-        <Box>
-          <Title>Home</Title>
-        </Box>
-        <Flex></Flex>
-      </Box>
-    </>
+    <Flex direction='column' mt={-60} gap='lg'>
+      <CreatePost />
+      <Post postId='1' />
+      <Post postId='2' />
+    </Flex>
   )
 }
 
