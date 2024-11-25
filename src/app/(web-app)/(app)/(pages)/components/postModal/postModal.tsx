@@ -1,3 +1,4 @@
+import { usePostStore } from "@/stores/usePostStore"
 import {
   ActionIcon,
   Avatar,
@@ -12,7 +13,8 @@ import {
   IconHeartBroken,
   IconDirectionSignFilled,
 } from "@tabler/icons-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { IPost } from "../post/interface"
 
 const MockPost = {
   postId: "1",
@@ -52,10 +54,36 @@ interface IPostModal {
 }
 
 const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
+  const { loadPost } = usePostStore()
+  const [post, setPost] = useState<IPost | null>(null) // State for the post
   const [isLike, setIsLike] = useState<boolean>(false)
+
+  // Fetch post data by ID
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const fetchedPost = await loadPost(postId) // Fetch post by ID
+        setPost(fetchedPost)
+      } catch (error) {
+        console.error("Failed to fetch post:", error)
+      }
+    }
+
+    if (postId) {
+      fetchPost()
+    }
+  }, [postId, loadPost])
 
   const handleLikePost = () => {
     setIsLike(!isLike)
+  }
+
+  if (!post) {
+    return (
+      <Modal opened={opened} onClose={onClose} title='Post Details' centered>
+        Loading post...
+      </Modal>
+    ) // Show loading text while fetching data
   }
 
   return (
@@ -73,7 +101,7 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
         {/* Post Header */}
         <Flex gap='md'>
           <Avatar
-            src={MockPost.postBy.avatar}
+            src={post.postBy.avatar}
             alt='profile'
             radius='xl'
             size='lg'
@@ -81,18 +109,18 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
           />
           <Flex direction='column'>
             <Text size='md' fw='normal'>
-              {MockPost.postBy.firstName + " " + MockPost.postBy.lastName}
+              {post.postBy.firstName + " " + post.postBy.lastName}
             </Text>
             <Text size='sm' fw='lighter'>
-              @{MockPost.postBy.username} · 23 hours ago
+              @{post.postBy.username} · 23 hours ago
             </Text>
           </Flex>
         </Flex>
 
         {/* Post Content */}
         <Flex direction='column'>
-          <Text size='lg'>{MockPost.title}</Text>
-          <Text size='sm'>{MockPost.content}</Text>
+          <Text size='lg'>{post.title}</Text>
+          <Text size='sm'>{post.content}</Text>
         </Flex>
 
         {/* Actions */}
@@ -105,7 +133,7 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
             >
               <IconHeart />
             </ActionIcon>
-            <Text size='sm'>{MockPost.like}</Text>
+            <Text size='sm'>{post.like}</Text>
           </Flex>
           <Flex align='center' gap='sm'>
             <ActionIcon
@@ -115,7 +143,7 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
             >
               <IconHeartBroken />
             </ActionIcon>
-            <Text size='sm'>{MockPost.dislike}</Text>
+            <Text size='sm'>{post.dislike}</Text>
           </Flex>
         </Flex>
 
@@ -124,9 +152,9 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
         <Text size='md'>Comment</Text>
 
         <Flex>
-          {MockPost.comment.map((comment) => (
+          {post.comment.map((comment) => (
             <Flex
-              key={comment.commentBy.commentId}
+              key={comment.commentBy.userId}
               justify='space-between'
               align='center'
               w='100%'
@@ -178,7 +206,7 @@ const PostModal: React.FC<IPostModal> = ({ postId, opened, onClose }) => {
         {/* Comment Input */}
         <Flex align='center' gap='lg'>
           <Avatar
-            src={MockPost.postBy.avatar}
+            src={post.postBy.avatar}
             alt='profile'
             radius='xl'
             size='lg'

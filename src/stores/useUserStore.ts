@@ -128,7 +128,7 @@ export const useUserStore = create<UserState & UserActions>()(
       name: "user-store",
       partialize: (state) => ({
         isAuthenticated: state.isAuthenticated,
-        token: state.userId,
+        userId: state.userId,
         currentUser: state.currentUser,
       }),
     }

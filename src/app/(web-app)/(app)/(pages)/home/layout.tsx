@@ -11,17 +11,17 @@ export default function Home({
 }>) {
   return (
     <AppShell
-      aside={{
+      /* aside={{
         width: 500,
         breakpoint: "sm",
-      }}
+      }} */
       padding={0}
     >
       <AppShell.Main>{children}</AppShell.Main>
 
-      <AppShell.Aside display={{ base: "none", md: "block" }}>
+      {/* <AppShell.Aside display={{ base: "none", md: "block" }}>
         Aside
-      </AppShell.Aside>
+      </AppShell.Aside> */}
     </AppShell>
   )
 }

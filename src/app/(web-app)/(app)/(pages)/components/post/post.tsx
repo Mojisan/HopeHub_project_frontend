@@ -15,46 +15,20 @@ import {
   IconHeart,
   IconHeartBroken,
 } from "@tabler/icons-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import PostModal from "../postModal/postModal"
+import { IPost } from "./interface"
 
-interface IPost {
-  postId: string
+interface IPostAugument {
+  post: IPost
 }
 
-const MockPost = {
-  postId: "1",
-  postBy: {
-    userId: "1",
-    username: "mojisan",
-    firstName: "Moji",
-    lastName: "San",
-    avatar: null,
-  },
-  title: "Hello World",
-  content: "Apex is amazing!",
-  postAt: "11-01-2024",
-  like: 1,
-  dislike: 5,
-  comment: [
-    {
-      commentBy: {
-        userId: "1",
-        username: "mojisan",
-        firstName: "Moji",
-        lastName: "San",
-        avatar: null,
-      },
-      commentMessage: "Kuy",
-    },
-  ],
-}
-
-const Post: React.FC<IPost> = ({ postId }) => {
+const Post: React.FC<IPostAugument> = ({ post }) => {
   const [isLike, setIsLike] = useState<boolean>(false)
   const [opened, { open, close }] = useDisclosure(false)
 
   const handleLikePost = () => {
+    console.log(post)
     setIsLike(!isLike)
   }
 
@@ -68,82 +42,88 @@ const Post: React.FC<IPost> = ({ postId }) => {
         width: "100%",
       }}
     >
-      <Flex gap='lg' direction='column'>
-        {/* Post Header */}
-        <Flex gap='md'>
-          <Avatar
-            src={MockPost.postBy.avatar}
-            alt='profile'
-            radius='xl'
-            size='lg'
-            color='white'
-          />
-          <Flex direction='column'>
-            <Text size='md' fw='normal'>
-              {MockPost.postBy.firstName + " " + MockPost.postBy.lastName}
-            </Text>
-            <Text size='sm' fw='lighter'>
-              @{MockPost.postBy.username} · 23 hours ago
-            </Text>
+      {post ? (
+        <>
+          <Flex gap='lg' direction='column'>
+            {/* Post Header */}
+            <Flex gap='md'>
+              <Avatar
+                src={post.postBy.avatar}
+                alt='profile'
+                radius='xl'
+                size='lg'
+                color='white'
+              />
+              <Flex direction='column'>
+                <Text size='md' fw='normal'>
+                  {post.postBy.firstName + " " + post.postBy.lastName}
+                </Text>
+                <Text size='sm' fw='lighter'>
+                  @{post.postBy.username} · 23 hours ago
+                </Text>
+              </Flex>
+            </Flex>
+
+            {/* Post Content */}
+            <Flex direction='column'>
+              <Text size='lg'>{post.title}</Text>
+              <Text size='sm'>{post.content}</Text>
+            </Flex>
+
+            {/* Actions */}
+            <Flex justify='space-evenly' align='center'>
+              <Flex align='center' gap='sm'>
+                <ActionIcon
+                  variant='subtle'
+                  disabled={isLike}
+                  onClick={handleLikePost}
+                >
+                  <IconHeart />
+                </ActionIcon>
+                <Text size='sm'>{post.like}</Text>
+              </Flex>
+              <Flex align='center' gap='sm'>
+                <ActionIcon
+                  variant='subtle'
+                  disabled={!isLike}
+                  onClick={handleLikePost}
+                >
+                  <IconHeartBroken />
+                </ActionIcon>
+                <Text size='sm'>{post.dislike}</Text>
+              </Flex>
+              <Flex align='center' gap='sm'>
+                <ActionIcon variant='subtle' onClick={open}>
+                  <IconBubbleText />
+                </ActionIcon>
+                <Text size='sm'>{post.comment.length}</Text>
+              </Flex>
+            </Flex>
+
+            <Divider />
+
+            {/* Comment Input */}
+            <Flex align='center' gap='lg'>
+              <Avatar
+                src={post.postBy.avatar}
+                alt='profile'
+                radius='xl'
+                size='lg'
+                color='white'
+              />
+              <TextInput placeholder='Add a comment' w='100%' />
+              <ActionIcon variant='subtle' size='lg'>
+                <IconDirectionSignFilled fontSize='lg' />
+              </ActionIcon>
+            </Flex>
           </Flex>
-        </Flex>
 
-        {/* Post Content */}
-        <Flex direction='column'>
-          <Text size='lg'>{MockPost.title}</Text>
-          <Text size='sm'>{MockPost.content}</Text>
-        </Flex>
-
-        {/* Actions */}
-        <Flex justify='space-evenly' align='center'>
-          <Flex align='center' gap='sm'>
-            <ActionIcon
-              variant='subtle'
-              disabled={isLike}
-              onClick={handleLikePost}
-            >
-              <IconHeart />
-            </ActionIcon>
-            <Text size='sm'>{MockPost.like}</Text>
-          </Flex>
-          <Flex align='center' gap='sm'>
-            <ActionIcon
-              variant='subtle'
-              disabled={!isLike}
-              onClick={handleLikePost}
-            >
-              <IconHeartBroken />
-            </ActionIcon>
-            <Text size='sm'>{MockPost.dislike}</Text>
-          </Flex>
-          <Flex align='center' gap='sm'>
-            <ActionIcon variant='subtle' onClick={open}>
-              <IconBubbleText />
-            </ActionIcon>
-            <Text size='sm'>{MockPost.comment.length}</Text>
-          </Flex>
-        </Flex>
-
-        <Divider />
-
-        {/* Comment Input */}
-        <Flex align='center' gap='lg'>
-          <Avatar
-            src={MockPost.postBy.avatar}
-            alt='profile'
-            radius='xl'
-            size='lg'
-            color='white'
-          />
-          <TextInput placeholder='Add a comment' w='100%' />
-          <ActionIcon variant='subtle' size='lg'>
-            <IconDirectionSignFilled fontSize='lg' />
-          </ActionIcon>
-        </Flex>
-      </Flex>
-
-      {/* Modal */}
-      <PostModal opened={opened} onClose={close} postId={MockPost.postId} />
+          {/* Modal */}
+          <PostModal opened={opened} onClose={close} postId={post.postId} />
+        </>
+      ) : (
+        <></>
+      )}
     </Paper>
   )
 }
