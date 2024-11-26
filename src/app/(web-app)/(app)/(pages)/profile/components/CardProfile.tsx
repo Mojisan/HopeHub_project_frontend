@@ -2,14 +2,34 @@
 
 import { Button, Flex, Image, Paper, Title } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import EditProfile from "./forms/EditProfile"
 import { useUserStore } from "@/stores/useUserStore"
+
+const BASE_URL = "http://localhost:5000"
 
 const CardProfile = () => {
   const { currentUser } = useUserStore()
   const [opened, { open, close }] = useDisclosure(false)
+  const [isLoading, setIsLoading] = useState(true) // State สำหรับรอ currentUser
   const mode = "create"
+
+  useEffect(() => {
+    // เมื่อ currentUser พร้อมแล้ว ให้ set isLoading เป็น false
+    if (currentUser) {
+      setIsLoading(false)
+      console.log(currentUser)
+    }
+  }, [currentUser])
+
+  if (isLoading) {
+    // แสดง loading state ขณะรอ currentUser
+    return (
+      <Flex justify='center' align='center' style={{ height: "450px" }}>
+        <Title order={3}>Loading...</Title>
+      </Flex>
+    )
+  }
 
   return (
     <>
@@ -31,7 +51,11 @@ const CardProfile = () => {
           <Flex h={175} gap='lg'>
             <Flex>
               <Image
-                src={currentUser?.avatar == "" ? null : currentUser?.avatar}
+                src={
+                  currentUser?.profile
+                    ? `${BASE_URL}${currentUser.profile}`
+                    : "https://via.placeholder.com/150"
+                }
                 alt='profile'
                 w={175}
                 h={175}
@@ -60,11 +84,7 @@ const CardProfile = () => {
             )}
           </Flex>
 
-          <EditProfile
-            opened={opened}
-            close={close}
-            userId={currentUser?.userId || ""}
-          />
+          <EditProfile opened={opened} close={close} />
         </Flex>
       </Paper>
     </>

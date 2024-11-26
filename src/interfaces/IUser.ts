@@ -9,7 +9,7 @@ export interface IUser {
   lastName: string
   username: string
   bio: string
-  avatar: string
+  profile: string
   follower: number
   following: number
 }

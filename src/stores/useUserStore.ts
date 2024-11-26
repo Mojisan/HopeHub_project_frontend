@@ -34,7 +34,8 @@ type UserActions = {
     userId: string,
     firstName?: string,
     lastName?: string,
-    bio?: string
+    bio?: string,
+    avatar?: File
   ) => void
 }
 
@@ -108,19 +109,28 @@ export const useUserStore = create<UserState & UserActions>()(
         userId: string,
         firstName?: string,
         lastName?: string,
-        bio?: string
+        bio?: string,
+        avatar?: File // เพิ่ม avatar เป็นตัวเลือก
       ) => {
         try {
+          // ส่งข้อมูลทั้งหมดรวมทั้งไฟล์ avatar
           await updateUserProfile({
             userId,
             firstName,
             lastName,
             bio,
+            avatar,
           })
 
           console.log("update success")
+
+          // อัปเดตข้อมูลผู้ใช้ใน state
+          const userData = await getUserProfile(get().userId)
+          set({
+            currentUser: userData,
+          })
         } catch {
-          throw Error
+          throw new Error("Failed to update user")
         }
       },
     }),

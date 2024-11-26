@@ -1,6 +1,12 @@
 import { create } from "zustand"
 import { IPost } from "@/app/(web-app)/(app)/(pages)/components/post/interface"
-import { getPostById, getPosts, post } from "@/services/postService"
+import {
+  dislikePostById,
+  getPostById,
+  getPosts,
+  likePostById,
+  post,
+} from "@/services/postService"
 
 type PostState = {
   posts: IPost[]
@@ -10,6 +16,8 @@ type PostActions = {
   post: (title: string, content: string, userId: string) => void
   loadPosts: () => void
   loadPost: (postId: string) => Promise<IPost>
+  likePost: (postId: string) => void
+  dislikePost: (postId: string) => void
 }
 
 const initialUserState: PostState = {
@@ -23,7 +31,7 @@ export const usePostStore = create<PostState & PostActions>()((set, get) => ({
       const posts = await getPosts()
       set({ posts })
       console.log("Posts loaded successfully:", posts)
-    } catch (error) {
+    } catch {
       throw Error
     }
   },
@@ -32,7 +40,7 @@ export const usePostStore = create<PostState & PostActions>()((set, get) => ({
       await post({ userId, title, content })
       console.log("Post created successfully")
       await get().loadPosts() // Reload posts after creating
-    } catch (error) {
+    } catch {
       throw Error
     }
   },
@@ -45,8 +53,30 @@ export const usePostStore = create<PostState & PostActions>()((set, get) => ({
       }
 
       return post
-    } catch (error) {
-      throw error
+    } catch {
+      throw Error
+    }
+  },
+  likePost: async (postId: string) => {
+    try {
+      await likePostById(postId)
+
+      get().loadPosts()
+
+      console.log("like success")
+    } catch {
+      throw Error
+    }
+  },
+  dislikePost: async (postId: string) => {
+    try {
+      await dislikePostById(postId)
+
+      get().loadPosts()
+
+      console.log("dislike success")
+    } catch {
+      throw Error
     }
   },
 }))

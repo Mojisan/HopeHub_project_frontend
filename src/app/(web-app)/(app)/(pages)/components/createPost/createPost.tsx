@@ -28,6 +28,8 @@ const CreatePost = () => {
       await post(title, content, userId)
 
       console.log("post success")
+
+      form.reset()
     } catch {
       alert("Can't Post")
       throw Error

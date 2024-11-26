@@ -16,15 +16,21 @@ const HomePage = () => {
   return (
     <Flex direction='column' mt={-60} gap='lg'>
       <CreatePost />
-
       {posts.length > 0 ? (
-        posts.map((post) =>
-          post.postBy ? (
-            <Post key={post.postId} post={post} />
-          ) : (
-            <div key={post.postId}>Post has no author</div>
+        posts
+          .slice() // สร้างสำเนาอาร์เรย์เพื่อป้องกันการเปลี่ยนแปลงต้นฉบับ
+          .sort((a, b) => {
+            const dateA = new Date(a.postAt).getTime()
+            const dateB = new Date(b.postAt).getTime()
+            return dateB - dateA
+          })
+          .map((post) =>
+            post.postBy ? (
+              <Post key={post.postId} post={post} />
+            ) : (
+              <div key={post.postId}>Post has no author</div>
+            )
           )
-        )
       ) : (
         <div>Loading posts...</div>
       )}

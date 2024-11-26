@@ -15,22 +15,35 @@ import {
   IconHeart,
   IconHeartBroken,
 } from "@tabler/icons-react"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import PostModal from "../postModal/postModal"
 import { IPost } from "./interface"
+import { calculateHoursAgo } from "@/utils/calculateHoursAgo"
+import { usePostStore } from "@/stores/usePostStore"
 
 interface IPostAugument {
   post: IPost
 }
 
+const BASE_URL = "http://localhost:5000"
+
 const Post: React.FC<IPostAugument> = ({ post }) => {
+  const { likePost, dislikePost } = usePostStore()
   const [isLike, setIsLike] = useState<boolean>(false)
   const [opened, { open, close }] = useDisclosure(false)
 
   const handleLikePost = () => {
     console.log(post)
-    setIsLike(!isLike)
+    likePost(post.postId)
+    setIsLike(true)
   }
+
+  const handleDislikePost = () => {
+    console.log(post)
+    dislikePost(post.postId)
+    setIsLike(false)
+  }
+
 
   return (
     <Paper
@@ -48,7 +61,7 @@ const Post: React.FC<IPostAugument> = ({ post }) => {
             {/* Post Header */}
             <Flex gap='md'>
               <Avatar
-                src={post.postBy.avatar}
+                src={post.postBy ? `${BASE_URL}${post.postBy.avatar}` : null}
                 alt='profile'
                 radius='xl'
                 size='lg'
@@ -59,7 +72,7 @@ const Post: React.FC<IPostAugument> = ({ post }) => {
                   {post.postBy.firstName + " " + post.postBy.lastName}
                 </Text>
                 <Text size='sm' fw='lighter'>
-                  @{post.postBy.username} · 23 hours ago
+                  @{post.postBy.username} · {calculateHoursAgo(post.postAt)}
                 </Text>
               </Flex>
             </Flex>
@@ -86,7 +99,7 @@ const Post: React.FC<IPostAugument> = ({ post }) => {
                 <ActionIcon
                   variant='subtle'
                   disabled={!isLike}
-                  onClick={handleLikePost}
+                  onClick={handleDislikePost}
                 >
                   <IconHeartBroken />
                 </ActionIcon>
@@ -105,7 +118,7 @@ const Post: React.FC<IPostAugument> = ({ post }) => {
             {/* Comment Input */}
             <Flex align='center' gap='lg'>
               <Avatar
-                src={post.postBy.avatar}
+                src={post.postBy ? `${BASE_URL}${post.postBy.avatar}` : null}
                 alt='profile'
                 radius='xl'
                 size='lg'

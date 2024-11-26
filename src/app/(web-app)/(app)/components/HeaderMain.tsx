@@ -18,6 +18,7 @@ import {
   IconCategory,
   IconSearch,
 } from "@tabler/icons-react"
+import { useRouter } from "next/navigation"
 import React from "react"
 
 const MENU_OPTIONS = [
@@ -188,13 +189,17 @@ const PcSizeMenu = () => {
 }
 
 const HeaderMain = () => {
+  const router = useRouter()
   return (
     <Flex h='100%' align='center' justify='space-between' mx='2%'>
-      <Flex gap='lg' align='center'>
+      <Flex
+        gap='lg'
+        align='center'
+      >
         <Image src='/images/logo.png' alt='logo' h={80} w='auto' />
       </Flex>
       <Flex>
-        <Autocomplete
+        {/* <Autocomplete
           leftSection={<IconSearch />}
           placeholder='Searching'
           radius={999}
@@ -205,7 +210,7 @@ const HeaderMain = () => {
           size='lg'
           w={500}
           display={{ base: "none", md: "block" }}
-        />
+        /> */}
       </Flex>
       <Flex justify='flex-end'>
         <Box display={{ base: "none", md: "block" }}>

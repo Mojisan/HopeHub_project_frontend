@@ -17,7 +17,7 @@ interface IUser {
   avatar: string
 }
 
-interface IComment {
+export interface IComment {
   commentBy: IUser
   commentMessage: string
   like: number

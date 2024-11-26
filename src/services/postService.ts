@@ -46,3 +46,25 @@ export const getPostById = async (postId: string): Promise<IPost> => {
     throw Error
   }
 }
+
+export const likePostById = async (postId: string): Promise<IPost> => {
+  try {
+    const response = await AxiosPrivateInstance.put<IPost>(
+      `http://localhost:5000/api/post/${postId}/like`
+    )
+    return response.data
+  } catch {
+    throw Error
+  }
+}
+
+export const dislikePostById = async (postId: string): Promise<IPost> => {
+  try {
+    const response = await AxiosPrivateInstance.put<IPost>(
+      `http://localhost:5000/api/post/${postId}/dislike`
+    )
+    return response.data
+  } catch {
+    throw Error
+  }
+}

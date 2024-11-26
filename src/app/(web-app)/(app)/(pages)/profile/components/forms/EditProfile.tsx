@@ -22,6 +22,7 @@ interface IUpdateProfileForm {
   firstName?: string
   lastName?: string
   bio?: string
+  file?: File
 }
 
 const EditProfile: React.FC<IEditProfile> = ({ opened, close }) => {
@@ -56,7 +57,14 @@ const EditProfile: React.FC<IEditProfile> = ({ opened, close }) => {
     const { firstName, lastName, bio } = value
 
     try {
-      await updateUser(userId, firstName, lastName, bio)
+      if (file) {
+        await updateUser(userId, firstName, lastName, bio, file)
+      } else {
+        await updateUser(userId, firstName, lastName, bio)
+      }
+
+      form.reset()
+      close()
     } catch {
       alert("User Not Found")
       throw Error

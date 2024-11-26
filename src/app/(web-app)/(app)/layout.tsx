@@ -29,21 +29,21 @@ export default function Home({
   return (
     <AppShell
       header={{ height: 100 }}
-      navbar={{
+      /* navbar={{
         width: 300,
         breakpoint: "sm",
-      }}
+      }} */
       padding={0}
     >
       <AppShell.Header bg='#ffc300'>
         <HeaderMain />
       </AppShell.Header>
 
-      <AppShell.Navbar p='md'>
+      {/* <AppShell.Navbar p='md'>
         <Sidebar />
-      </AppShell.Navbar>
+      </AppShell.Navbar> */}
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main px='lg'>{children}</AppShell.Main>
     </AppShell>
   )
 }
